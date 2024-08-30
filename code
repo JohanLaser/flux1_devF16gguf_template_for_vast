@@ -37,9 +37,11 @@ VAE_MODELS=(
 )
 
 LORA_MODELS=(
+    "https://huggingface.co/XLabs-AI/flux-lora-collection/resolve/main/realism_lora_comfy_converted.safetensors"
 )
 
 ESRGAN_MODELS=(
+    "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth"
     "https://huggingface.co/ai-forever/Real-ESRGAN/resolve/main/RealESRGAN_x4.pth"
     "https://huggingface.co/FacehugmanIII/4x_foolhardy_Remacri/resolve/main/4x_foolhardy_Remacri.pth"
     "https://huggingface.co/Akumetsu971/SD_Anime_Futuristic_Armor/resolve/main/4x_NMKD-Siax_200k.pth"
@@ -56,6 +58,21 @@ function provisioning_start() {
     fi
     source /opt/ai-dock/etc/environment.sh
     source /opt/ai-dock/bin/venv-set.sh comfyui
+
+    # Убедимся, что ComfyUI всегда обновляется до последней версии
+    if [[ -d /opt/ComfyUI ]]; then
+        echo "ComfyUI directory exists. Updating to the latest version..."
+        cd /opt/ComfyUI
+        git fetch
+        git reset --hard origin/main
+    else
+        echo "Cloning the latest version of ComfyUI..."
+        git clone https://github.com/comfyanonymous/ComfyUI.git /opt/ComfyUI
+        cd /opt/ComfyUI
+    fi
+
+    # Устанавливаем необходимые зависимости
+    pip install -r requirements.txt
 
     # Get licensed models if HF_TOKEN set & valid
     if provisioning_has_valid_hf_token; then
@@ -79,7 +96,7 @@ function provisioning_start() {
         "${WORKSPACE}/storage/stable_diffusion/models/unet" \
         "${UNET_MODELS[@]}"
     provisioning_get_models \
-        "${WORKSPACE}/storage/stable_diffusion/models/lora" \
+        "${WORKSPACE}/comfyui/models/lora" \
         "${LORA_MODELS[@]}"
     provisioning_get_models \
         "${WORKSPACE}/storage/stable_diffusion/models/controlnet" \
@@ -122,7 +139,7 @@ function provisioning_get_nodes() {
         path="/opt/ComfyUI/custom_nodes/${dir}"
         requirements="${path}/requirements.txt"
         if [[ -d $path ]]; then
-            if [[ ${AUTO_UPDATE,,} != "false" ]]; then
+            if [[ ${AUTO_UPDATE,,} != "true" ]]; then
                 printf "Updating node: %s...\n" "${repo}"
                 ( cd "$path" && git pull )
                 if [[ -e $requirements ]]; then
