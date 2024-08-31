@@ -59,17 +59,10 @@ function provisioning_start() {
     source /opt/ai-dock/etc/environment.sh
     source /opt/ai-dock/bin/venv-set.sh comfyui
 
-    # Убедимся, что ComfyUI всегда обновляется до последней версии
-    if [[ -d /opt/ComfyUI ]]; then
-        echo "ComfyUI directory exists. Updating to the latest version..."
-        cd /opt/ComfyUI
-        git fetch
-        git reset --hard origin/main
-    else
-        echo "Cloning the latest version of ComfyUI..."
-        git clone https://github.com/comfyanonymous/ComfyUI.git /opt/ComfyUI
-        cd /opt/ComfyUI
-    fi
+    # Клонируем последнюю версию ComfyUI
+    echo "Cloning the latest version of ComfyUI..."
+    git clone https://github.com/comfyanonymous/ComfyUI.git /opt/ComfyUI
+    cd /opt/ComfyUI
 
     # Устанавливаем необходимые зависимости
     pip install -r requirements.txt
