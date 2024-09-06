@@ -19,7 +19,12 @@ PIP_PACKAGES=(
 )
 
 NODES=(
-    
+    "https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git"
+    "https://github.com/ssitu/ComfyUI_UltimateSDUpscale.git"
+    "https://github.com/sipherxyz/comfyui-art-venture.git"
+    "https://github.com/rgthree/rgthree-comfy.git"
+    "https://github.com/yolain/ComfyUI-Easy-Use.git"
+    "https://github.com/crystian/ComfyUI-Crystools.git"
 )
 
 CHECKPOINT_MODELS=(
@@ -41,6 +46,8 @@ LORA_MODELS=(
 )
 
 ESRGAN_MODELS=(
+    "https://civitai.com/api/download/models/125843?type=Model&format=PickleTensor"
+    "https://github.com/Phhofm/models/releases/download/4xNomos8k_atd_jpg/4xNomos8k_atd_jpg.safetensors"
     "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/4x_NMKD-Siax_200k.pth"
     "https://huggingface.co/ai-forever/Real-ESRGAN/resolve/main/RealESRGAN_x4.pth"
     "https://huggingface.co/FacehugmanIII/4x_foolhardy_Remacri/resolve/main/4x_foolhardy_Remacri.pth"
