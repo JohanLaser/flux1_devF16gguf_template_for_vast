@@ -66,14 +66,6 @@ function provisioning_start() {
     source /opt/ai-dock/etc/environment.sh
     source /opt/ai-dock/bin/venv-set.sh comfyui
 
-    # Клонируем последнюю версию ComfyUI
-    echo "Cloning the latest version of ComfyUI..."
-    git clone https://github.com/comfyanonymous/ComfyUI.git /opt/ComfyUI
-    cd /opt/ComfyUI
-
-    # Устанавливаем необходимые зависимости
-    pip install -r requirements.txt
-
     # Get licensed models if HF_TOKEN set & valid
     if provisioning_has_valid_hf_token; then
         UNET_MODELS+=("https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/flux1-dev.safetensors")
@@ -139,7 +131,7 @@ function provisioning_get_nodes() {
         path="/opt/ComfyUI/custom_nodes/${dir}"
         requirements="${path}/requirements.txt"
         if [[ -d $path ]]; then
-            if [[ ${AUTO_UPDATE,,} != "true" ]]; then
+            if [[ ${AUTO_UPDATE,,} != "false" ]]; then
                 printf "Updating node: %s...\n" "${repo}"
                 ( cd "$path" && git pull )
                 if [[ -e $requirements ]]; then
