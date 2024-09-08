@@ -19,6 +19,7 @@ PIP_PACKAGES=(
 )
 
 NODES=(
+    "https://github.com/neuratech-ai/ComfyUI-MultiGPU"
     "https://github.com/pythongosssss/ComfyUI-Custom-Scripts"
     "https://github.com/ssitu/ComfyUI_UltimateSDUpscale"
     "https://github.com/sipherxyz/comfyui-art-venture"
